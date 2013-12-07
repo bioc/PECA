@@ -1,0 +1,2 @@
+import(limma, affy, genefilter, preprocessCore)
+export(PECA_AffyBatch, PECA_CEL, PECA_tsv)
