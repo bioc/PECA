@@ -3,6 +3,7 @@
 \alias{PECA_AffyBatch}
 \alias{PECA_CEL}
 \alias{PECA_tsv}
+\alias{PECA_df}
 \title{PECA differential gene expression}
 \description{
   Calculates the PECA ordinary or modified t-statistic to determine differential expression between two groups of samples in Affymetrix gene expression studies or peptide-based proteomic studies.
@@ -21,22 +22,25 @@ The significance of an expression change is determined based on the analytical p
 PECA_AffyBatch(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
 
 ## Read CEL-files
-PECA_CEL(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t",
-	type="median", paired=FALSE)
+PECA_CEL(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
 
 ## Read tab separated text file	
-PECA_tsv(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t",
-	type="median", paired=FALSE)
+PECA_tsv(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
+
+## Read dataframe	
+PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
 }
 \arguments{
   \item{affy}{AffyBatch object}
-  \item{normalize}{a logical indicating whether quantile normalization is applied}
-  \item{test}{a character string indicating whether the ordinary ("\code{t}") or modified ("\code{modt}") t-test is performed.}
+  \item{normalize}{a character string indicating if ("\code{quantile}") or ("\code{median}") normalization is performed}
+  \item{test}{a character string indicating whether the ordinary ("\code{t}") or modified ("\code{modt}") t-test is performed}
   \item{type}{a character string indicating whether ("\code{median}") or ("\code{tukey}") is used when calculating gene/protein values}
   \item{paired}{a logical indicating whether a paired test is performed}
   \item{file}{filename of tab separated data}
   \item{samplenames1}{a character vector containing the names of the .CEL-files/columns in the first group}
   \item{samplenames2}{a character vector containing the names of the .CEL-files/columns in the second group}
+  \item{df}{dataframe to be used as an input}
+  \item{id}{column name of dataframe used for aggregating results}
 }
 
 \examples{

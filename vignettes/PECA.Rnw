@@ -74,7 +74,8 @@ rma_results=2*(1-pnorm(abs(stats)))
 
 Combine and preview results.
 <<combine>>=
-results <- cbind(peca=peca_results[,4],mas5=mas5_results,rma=rma_results,spike=0)
+results <- cbind(peca=peca_results[,"p"],mas5=mas5_results,rma=rma_results,spike=0)
+rownames(results) <- rownames(peca_results)
 results[,4][rownames(results) %in% colnames(pData(data))] <- 1
 head(results)
 @
