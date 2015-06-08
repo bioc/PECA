@@ -1,11 +1,7 @@
 Package: PECA
 Type: Package
 Title: Probe-level Expression Change Averaging
-<<<<<<< .mine
 Version: 1.5.1
-=======
-Version: 1.5.0
->>>>>>> .r104683
 Author: Tomi Suomi, Jukka Hiissa, Laura L. Elo
 Maintainer: Tomi Suomi <tomi.suomi@utu.fi>
 Imports: limma, affy, genefilter, preprocessCore
