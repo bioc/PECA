@@ -44,24 +44,25 @@ PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
 }
 
 \examples{
-## Load spike-in example
-library(SpikeIn)
-data(SpikeIn95)
-
-## Subset the data
-data <- SpikeIn95[,13:20]
+## Generate example data frame
+df <- data.frame(id=c(rep("a",10),rep("b",10),rep("c",10)))
+df$A1 <- rnorm(30, mean=50, sd=5)
+df$A2 <- rnorm(30, mean=48, sd=5)
+df$A3 <- rnorm(30, mean=50, sd=5)
+df$B1 <- rnorm(30, mean=52, sd=5)
+df$B2 <- rnorm(30, mean=53, sd=5)
+df$B3 <- rnorm(30, mean=51, sd=5)
 
 ## Run the test
-results <- PECA_AffyBatch(affy=data)
-
-## Show portion of the results
-head(results)
+group1 <- c("A1","A2","A3")
+group2 <- c("B1","B2","B3")
+results <- PECA_df(df, group1, group2, id=id)
 }
 
 \references{ 
-T. Suomi, O. Nevalainen and L.L. Elo:
-Evaluation of probe-level expression change averaging in microarray and proteomics data.
-2013
+T. Suomi, G.L. Corthals, O. Nevalainen and L.L. Elo:
+Using peptide-level proteomics data for detecting differentially expressed proteins.
+2015
 
 L.L. Elo, L. Lahti, H. Skottman, M. Kylaniemi, R. Lahesmaa and T. Aittokallio:
 Integrating probe-level expression changes across generations of Affymetrix arrays. 
