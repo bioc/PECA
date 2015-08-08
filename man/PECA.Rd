@@ -1,12 +1,48 @@
 \name{PECA}
+
 \alias{PECA}
 \alias{PECA_AffyBatch}
 \alias{PECA_CEL}
 \alias{PECA_tsv}
 \alias{PECA_df}
+
 \title{PECA differential gene expression}
+
 \description{
   Calculates the PECA ordinary or modified t-statistic to determine differential expression between two groups of samples in Affymetrix gene expression studies or peptide-based proteomic studies.
+}
+
+\usage{
+## Read AffyBatch object
+PECA_AffyBatch(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
+
+## Read CEL-files
+PECA_CEL(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t",
+   type="median", paired=FALSE)
+
+## Read tab separated text file	
+PECA_tsv(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
+   test="t", type="median", paired=FALSE)
+
+## Read dataframe	
+PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
+   test="t", type="median", paired=FALSE)
+}
+\arguments{
+  \item{affy}{AffyBatch object.}
+  \item{normalize}{A character string indicating if ("\code{quantile}") or ("\code{median}") normalization is performed.}
+  \item{test}{A character string indicating whether the ordinary ("\code{t}") or modified ("\code{modt}") t-test is performed.}
+  \item{type}{A character string indicating whether ("\code{median}") or ("\code{tukey}") is used when calculating gene/protein values.}
+  \item{paired}{A logical indicating whether a paired test is performed.}
+  \item{file}{Filename of tab separated data.}
+  \item{samplenames1}{A character vector containing the names of the .CEL-files/columns in the first group.}
+  \item{samplenames2}{A character vector containing the names of the .CEL-files/columns in the second group.}
+  \item{df}{Dataframe to be used as an input.}
+  \item{id}{Column name of dataframe used for aggregating results.}
+}
+
+\value{
+  \code{PECADE} returns a matrix which rows correspond to the genes under analysis and columns indicate the corresponding signal log-ratio (slr), t-statistic, p-value and FDR adjusted p-value.
 }
 
 \details{
@@ -15,32 +51,6 @@
 \code{PECA} calculates the probe-level expression changes using the ordinary or modified t-statistic. The ordinary t-statistic is calculated using the function \code{rowttests} in the Bioconductor \code{genefilter} package. The modified t-statistic is calculated using the linear modeling approach in the Bioconductor \code{limma} package. Both paired and unpaired tests are supported.
 
 The significance of an expression change is determined based on the analytical p-value of the gene-level test statistic. Unadjusted p-values are reported along with the corresponding p-values looked up from beta ditribution. The quality control and filtering of the data (e.g. based on low intensity or probe specificity) is left to the user.
-}
-
-\usage{
-## Read AffyBatch object
-PECA_AffyBatch(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
-
-## Read CEL-files
-PECA_CEL(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
-
-## Read tab separated text file	
-PECA_tsv(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
-
-## Read dataframe	
-PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
-}
-\arguments{
-  \item{affy}{AffyBatch object}
-  \item{normalize}{a character string indicating if ("\code{quantile}") or ("\code{median}") normalization is performed}
-  \item{test}{a character string indicating whether the ordinary ("\code{t}") or modified ("\code{modt}") t-test is performed}
-  \item{type}{a character string indicating whether ("\code{median}") or ("\code{tukey}") is used when calculating gene/protein values}
-  \item{paired}{a logical indicating whether a paired test is performed}
-  \item{file}{filename of tab separated data}
-  \item{samplenames1}{a character vector containing the names of the .CEL-files/columns in the first group}
-  \item{samplenames2}{a character vector containing the names of the .CEL-files/columns in the second group}
-  \item{df}{dataframe to be used as an input}
-  \item{id}{column name of dataframe used for aggregating results}
 }
 
 \examples{
@@ -76,4 +86,5 @@ H. Bengtsson, K. Simpson, J. Bullard and K. Hansen:
 aroma.affymetrix: A generic framework in R for analyzing small to very large Affymetrix data sets in bounded memory.
 Tech Report \#745, Department of Statistics, University of California, Berkeley, 2008.
 }
+
 \keyword{math}

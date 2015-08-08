@@ -1,5 +1,4 @@
-`PECA_df` <-
-function(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_df` <- function(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
 	# Read dataframe
 	probeintensities <- df
 	probenamesGene <- subset(probeintensities,select=id)
@@ -8,10 +7,9 @@ function(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE
 	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired)
 }
 
-`PECA_tsv` <-
-function(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_tsv` <- function(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
 	# Read tsv-file
-	message("Reading data.")
+	message("Reading data")
 	flush.console()
 	probeintensities <- read.csv(file, sep="\t")
 	probenamesGene <- probeintensities[,1]
@@ -20,8 +18,7 @@ function(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test=
 	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired)
 }
 
-`PECA_AffyBatch` <-
-function(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_AffyBatch` <- function(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
 	# Read AffyBatch
 	data <- affy
 	probenamesGene <- probeNames(data)
@@ -34,8 +31,7 @@ function(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
 	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=sn1, samplenames2=sn2, normalize=normalize, test=test, type=type, paired=paired)
 }
 
-`PECA_CEL` <-
-function(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_CEL` <- function(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
 	# Read affymetrix CEL-files
 	message("Reading data")
 	flush.console()
@@ -48,8 +44,7 @@ function(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="
 }
 
 # PECA function called by different wrappers
-`PECA` <-
-function(probenamesGene=NULL, probeintensities=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA` <- function(probenamesGene=NULL, probeintensities=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
 
 # Normalization
 if (normalize==TRUE | normalize=="quantile") {
@@ -66,9 +61,8 @@ if (normalize=="median") {
 # Log transformation
 message("Performing log-transformation")
 flush.console()
-probeintensities[probeintensities == 0] <- 1
+probeintensities <- probeintensities + 1
 probeintensities <- log2(probeintensities)
-#probeintensities[is.infinite(probeintensities)] <- 0
 colnames(probeintensities) <- c(samplenames1,samplenames2)
 
 # PECA slr and t-statistic
@@ -93,7 +87,6 @@ if (test == "modt") {
     if (paired) {
 		probeSLR <- matrix(nrow=nrow(probeintensities), ncol=length(samplenames1)) 
 		for(i in 1:length(samplenames1)) probeSLR[,i] <- probeintensities[,samplenames1[i]] - probeintensities[,samplenames2[i]]
-		# probeSLR[is.infinite(probeSLR)] <- NA
 		fit <- lmFit(probeSLR)
 		fit <- eBayes(fit)
 		probeSLR <- fit$coefficients
@@ -102,7 +95,6 @@ if (test == "modt") {
     else {
         design <- cbind(G1=1,G1vsG2=c(rep(1,length(samplenames1)), rep(0,length(samplenames2))))
 		probeSLR <- as.matrix(cbind(probeintensities[,samplenames1], probeintensities[,samplenames2]))
-		# probeSLR[is.infinite(probeSLR)] <- NA
         fit <- lmFit(probeSLR, design)
 		fit <- eBayes(fit)
 		probeSLR <- fit$coefficients[,2]
@@ -112,11 +104,11 @@ if (test == "modt") {
 	rm(fit)
 	gc()
 }
-if (test == "rots") {
+#if (test == "rots") {
   #SV_ROTS<-c(0,0,0,1,1,1)
   #ROTS.out <- ROTS(data=probeintensities,groups=SV_ROTS,seed=1,B=1000,K=10000)
   #p <- ROTS.out$Pvalue1
-}
+#}
 
 # Aggregating t-statistics
 message("Aggregating statistics")
