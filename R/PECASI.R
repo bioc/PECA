@@ -77,12 +77,11 @@ flush.console()
 exonSI <- tapply(probeSI, probenamesExon, median, na.rm=TRUE)
 t <- tapply(t, probenamesExon, median, na.rm=TRUE)
 p <- 2*pt(abs(t), df=df.total, lower.tail=FALSE)
-p.fdr <- p.adjust(p, method="fdr")
 rm(probeSI)
 gc()
 
 # Return a table containing si, t-statistic and p-value
-result <- cbind(si=exonSI, t=t, p=p, p.fdr=p.fdr) 
+result <- data.frame(cbind(si=exonSI, t=t, p=p))
 return(result)
 
 }
