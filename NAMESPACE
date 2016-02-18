@@ -1,4 +1,4 @@
-import(limma, affy, genefilter, preprocessCore)
+import(ROTS, limma, affy, genefilter, preprocessCore)
 importFrom(aroma.affymetrix, AffymetrixCdfFile)
 importFrom(aroma.affymetrix, AffymetrixCelSet)
 importFrom(aroma.affymetrix, QuantileNormalization)

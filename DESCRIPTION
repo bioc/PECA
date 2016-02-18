@@ -1,10 +1,10 @@
 Package: PECA
 Type: Package
 Title: Probe-level Expression Change Averaging
-Version: 1.7.0
+Version: 1.7.1
 Author: Tomi Suomi, Jukka Hiissa, Laura L. Elo
 Maintainer: Tomi Suomi <tomi.suomi@utu.fi>
-Imports: limma, affy, genefilter, preprocessCore, aroma.affymetrix, aroma.core
+Imports: ROTS, limma, affy, genefilter, preprocessCore, aroma.affymetrix, aroma.core
 Suggests: SpikeIn
 Description: Calculates Probe-level Expression Change Averages (PECA) to identify differential expression in Affymetrix gene expression microarray studies or in proteomic studies using peptide-level mesurements respectively.
 biocViews: Software, Proteomics, Microarray, DifferentialExpression, GeneExpression, ExonArray, DifferentialSplicing

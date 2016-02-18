@@ -83,7 +83,7 @@ if (test == "t") {
     probeSLR <- t$dm
     t <- t$statistic
 }
-if (test == "modt") {
+if (test == "modt" | test == "rots") {
     if (paired) {
 		probeSLR <- matrix(nrow=nrow(probeintensities), ncol=length(samplenames1)) 
 		for(i in 1:length(samplenames1)) probeSLR[,i] <- probeintensities[,samplenames1[i]] - probeintensities[,samplenames2[i]]
@@ -104,27 +104,33 @@ if (test == "modt") {
 	rm(fit)
 	gc()
 }
-#if (test == "rots") {
-  #SV_ROTS<-c(0,0,0,1,1,1)
-  #ROTS.out <- ROTS(data=probeintensities,groups=SV_ROTS,seed=1,B=1000,K=10000)
-  #p <- ROTS.out$Pvalue1
-#}
+if (test == "rots") {
+  grouping <- c(rep(1,length(samplenames1)), rep(0,length(samplenames2)))
+  ROTS.out <- ROTS.filtered(data=probeintensities, groups=grouping, paired=paired, B=1000, K=floor(nrow(probeintensities)/2))
+  rots.p <- ROTS.out$p
+  rots.p[which(probeSLR<0)] <- rots.p[which(probeSLR<0)] * -1
+  rots.p[which(rots.p>=0)] <- 1 - rots.p[which(rots.p>=0)]
+  rots.p[which(rots.p<0)] <- abs(rots.p[which(rots.p<0)]) - 1
+}
 
-# Aggregating t-statistics
+# Aggregating statistics
 message("Aggregating statistics")
 flush.console()
 gene.n <- tapply(t, probenamesGene, function(x) sum(!is.na(x)))  
 if (type=="median") {
 	geneSLR <- tapply(probeSLR, probenamesGene, median, na.rm=TRUE)
 	t <- tapply(t, probenamesGene, median, na.rm=TRUE)
+	if (test == "rots") {rots.p <- 1- abs(tapply(rots.p, probenamesGene, median, na.rm=TRUE))}
 }
 if (type=="tukey") {
 	geneSLR <- tapply(probeSLR, probenamesGene, tukey)
 	t <- tapply(t, probenamesGene, tukey)
+	if (test == "rots") {rots.p <- 1 - abs(tapply(rots.p, probenamesGene, tukey))}
 }
 
 # P-values
 gene.p <- 2 * pt(abs(t), df=df.total, lower.tail=FALSE)
+if (test == "rots") {gene.p <- rots.p}
 gene.p2 <- gene.p
 if (type=="median") {
 	gene.p2 <- pbeta(gene.p, gene.n/2 + 0.5, gene.n - (gene.n/2 + 0.5) + 1)
@@ -143,7 +149,7 @@ rm(probeSLR)
 gc()
 
 # Return a table containing slr, t-statistic and p-value
-result <- data.frame(cbind(slr=geneSLR, t=t, score=gene.p, p=gene.p2, p.fdr=gene.p.fdr))
+result <- data.frame(cbind(slr=geneSLR, t=t, score=gene.p, n=gene.n, p=gene.p2, p.fdr=gene.p.fdr))
 message("Done")
 return(result)
 

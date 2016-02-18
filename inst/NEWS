@@ -2,4 +2,11 @@ PECA 1.5.2 (2015-08-07)
 ---------------------------
 
 ADDED FUNCTIONS:
+   * ROPECA - Reproducibility Optimized PECA.
+
+
+PECA 1.5.2 (2015-08-07)
+---------------------------
+
+ADDED FUNCTIONS:
    * PECASI - Differential splicing between two groups of samples in Affymetrix exon array studies.
