@@ -106,7 +106,7 @@ if (test == "modt" | test == "rots") {
 }
 if (test == "rots") {
   grouping <- c(rep(1,length(samplenames1)), rep(0,length(samplenames2)))
-  ROTS.out <- ROTS.filtered(data=probeintensities, groups=grouping, paired=paired, B=1000, K=floor(nrow(probeintensities)/2))
+  ROTS.out <- ROTS.filtered(data=probeintensities, groups=grouping, paired=paired, B=1000, K=nrow(probeintensities))
   rots.p <- ROTS.out$p
   rots.p[which(probeSLR<0)] <- rots.p[which(probeSLR<0)] * -1
   rots.p[which(rots.p>=0)] <- 1 - rots.p[which(rots.p>=0)]
