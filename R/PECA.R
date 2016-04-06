@@ -1,13 +1,13 @@
-`PECA_df` <- function(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_df` <- function(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE, progress=FALSE) {
 	# Read dataframe
 	probeintensities <- df
 	probenamesGene <- subset(probeintensities,select=id)
 	probeintensities <- subset(probeintensities,select=c(samplenames1,samplenames2))
 	probeintensities <- as.matrix(probeintensities)
-	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired)
+	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired, progress=progress)
 }
 
-`PECA_tsv` <- function(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_tsv` <- function(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE, progress=FALSE) {
 	# Read tsv-file
 	message("Reading data")
 	flush.console()
@@ -15,10 +15,10 @@
 	probenamesGene <- probeintensities[,1]
 	probeintensities <- subset(probeintensities,select=c(samplenames1,samplenames2))
 	probeintensities <- as.matrix(probeintensities)
-	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired)
+	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired, progress=progress)
 }
 
-`PECA_AffyBatch` <- function(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_AffyBatch` <- function(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE, progress=FALSE) {
 	# Read AffyBatch
 	data <- affy
 	probenamesGene <- probeNames(data)
@@ -28,10 +28,10 @@
 	sn2 <- sampleNames(data)[(l/2+1):l]
 	rm(data)
 	gc()
-	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=sn1, samplenames2=sn2, normalize=normalize, test=test, type=type, paired=paired)
+	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=sn1, samplenames2=sn2, normalize=normalize, test=test, type=type, paired=paired, progress=progress)
 }
 
-`PECA_CEL` <- function(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA_CEL` <- function(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE, progress=FALSE) {
 	# Read affymetrix CEL-files
 	message("Reading data")
 	flush.console()
@@ -40,11 +40,11 @@
 	probeintensities <- pm(data)
 	rm(data)
 	gc()
-	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired)
+	PECA(probenamesGene=probenamesGene, probeintensities=probeintensities, samplenames1=samplenames1, samplenames2=samplenames2, normalize=normalize, test=test, type=type, paired=paired, progress=progress)
 }
 
 # PECA function called by different wrappers
-`PECA` <- function(probenamesGene=NULL, probeintensities=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE) {
+`PECA` <- function(probenamesGene=NULL, probeintensities=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t", type="median", paired=FALSE, progress=FALSE) {
 
 # Normalization
 if (normalize==TRUE | normalize=="quantile") {
@@ -106,7 +106,7 @@ if (test == "modt" | test == "rots") {
 }
 if (test == "rots") {
   grouping <- c(rep(1,length(samplenames1)), rep(0,length(samplenames2)))
-  ROTS.out <- ROTS.filtered(data=probeintensities, groups=grouping, paired=paired, B=1000, K=nrow(probeintensities))
+  ROTS.out <- ROTS.filtered(data=probeintensities, groups=grouping, paired=paired, B=1000, K=nrow(probeintensities), progress=progress)
   rots.p <- ROTS.out$p
   rots.p[which(probeSLR<0)] <- rots.p[which(probeSLR<0)] * -1
   rots.p[which(rots.p>=0)] <- 1 - rots.p[which(rots.p>=0)]

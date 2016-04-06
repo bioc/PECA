@@ -14,19 +14,19 @@
 
 \usage{
 ## Read AffyBatch object
-PECA_AffyBatch(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE)
+PECA_AffyBatch(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE, progress=FALSE)
 
 ## Read CEL-files
 PECA_CEL(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t",
-   type="median", paired=FALSE)
+   type="median", paired=FALSE, progress=FALSE)
 
 ## Read tab separated text file	
 PECA_tsv(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
-   test="t", type="median", paired=FALSE)
+   test="t", type="median", paired=FALSE, progress=FALSE)
 
 ## Read dataframe	
 PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
-   test="t", type="median", paired=FALSE)
+   test="t", type="median", paired=FALSE, progress=FALSE)
 }
 \arguments{
   \item{affy}{AffyBatch object.}
@@ -39,6 +39,7 @@ PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
   \item{samplenames2}{A character vector containing the names of the .CEL-files/columns in the second group.}
   \item{df}{Dataframe to be used as an input.}
   \item{id}{Column name of dataframe used for aggregating results.}
+  \item{progress}{A logical indicating whether a progress bar is shown.}
 }
 
 \value{

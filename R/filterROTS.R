@@ -1,5 +1,5 @@
 # Filtering for ROTS
-ROTS.filtered <- function(data, groups, B, K, paired=FALSE, seed=NULL, a1=NULL, a2=NULL) {
+ROTS.filtered <- function(data, groups, B, K, paired=FALSE, progress=FALSE) {
   # List rows having less than two non-missing values
   data1 <- data[,groups==unique(groups)[1]]
   data2 <- data[,groups==unique(groups)[2]]
@@ -12,7 +12,7 @@ ROTS.filtered <- function(data, groups, B, K, paired=FALSE, seed=NULL, a1=NULL, 
    # Remove rows
     data <- data[-filter,]
     # Run ROTS
-    rots.out <- ROTS(data, groups, B, K, paired, seed, a1, a2)
+    rots.out <- ROTS(data=data, groups=groups, B=B, K=K, paired=paired, progress=progress)
     # Fill back filtered rows with NA
     for(i in 1:length(filter)) {
       rots.out$d <- append(rots.out$d, NA, after=filter[i]-1)
@@ -24,7 +24,7 @@ ROTS.filtered <- function(data, groups, B, K, paired=FALSE, seed=NULL, a1=NULL, 
     return(rots.out)
   } else {
     # Run ROTS
-    rots.out <- ROTS(data, groups, B, K, paired, seed, a1, a2)
+    rots.out <- ROTS(data=data, groups=groups, B=B, K=K, paired=paired, progress=progress)
     # Return results
     return(rots.out)
   }
