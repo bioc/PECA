@@ -84,39 +84,39 @@ if (test == "t") {
     t <- t$statistic
 }
 if (test == "modt" | test == "rots") {
-    if (paired) {
-		probeSLR <- matrix(nrow=nrow(probeintensities), ncol=length(samplenames1)) 
-		for(i in 1:length(samplenames1)) probeSLR[,i] <- probeintensities[,samplenames1[i]] - probeintensities[,samplenames2[i]]
-		fit <- lmFit(probeSLR)
-		fit <- eBayes(fit)
-		probeSLR <- fit$coefficients
-		t <- fit$t
-    }
-    else {
-        design <- cbind(G1=1,G1vsG2=c(rep(1,length(samplenames1)), rep(0,length(samplenames2))))
-		probeSLR <- as.matrix(cbind(probeintensities[,samplenames1], probeintensities[,samplenames2]))
-        fit <- lmFit(probeSLR, design)
-		fit <- eBayes(fit)
-		probeSLR <- fit$coefficients[,2]
-		t <- fit$t[,2]
-    }
-	df.total<- fit$df.residual[1] + fit$df.prior
-	rm(fit)
-	gc()
+  if (paired) {
+    probeSLR <- matrix(nrow=nrow(probeintensities), ncol=length(samplenames1)) 
+    for(i in 1:length(samplenames1)) probeSLR[,i] <- probeintensities[,samplenames1[i]] - probeintensities[,samplenames2[i]]
+    fit <- lmFit(probeSLR)
+    fit <- eBayes(fit)
+    probeSLR <- fit$coefficients
+    t <- fit$t
+  } else {
+    design <- cbind(G1=1,G1vsG2=c(rep(1,length(samplenames1)), rep(0,length(samplenames2))))
+    probeSLR <- as.matrix(cbind(probeintensities[,samplenames1], probeintensities[,samplenames2]))
+    fit <- lmFit(probeSLR, design)
+    fit <- eBayes(fit)
+    probeSLR <- fit$coefficients[,2]
+    t <- fit$t[,2]
+  }
+  df.total<- fit$df.residual[1] + fit$df.prior
+  rm(fit)
+  gc()
 }
 if (test == "rots") {
   grouping <- c(rep(1,length(samplenames1)), rep(0,length(samplenames2)))
   ROTS.out <- ROTS.filtered(data=probeintensities, groups=grouping, paired=paired, B=1000, K=nrow(probeintensities), progress=progress)
-  rots.p <- ROTS.out$p
+  rots.p <- ROTS.out$pvalue
   rots.p[which(probeSLR<0)] <- rots.p[which(probeSLR<0)] * -1
   rots.p[which(rots.p>=0)] <- 1 - rots.p[which(rots.p>=0)]
   rots.p[which(rots.p<0)] <- abs(rots.p[which(rots.p<0)]) - 1
+  t[is.na(rots.p)] <- NA
 }
 
 # Aggregating statistics
 message("Aggregating statistics")
 flush.console()
-gene.n <- tapply(t, probenamesGene, function(x) sum(!is.na(x)))  
+gene.n <- tapply(t, probenamesGene, function(x) sum(!is.na(x)))
 if (type=="median") {
 	geneSLR <- tapply(probeSLR, probenamesGene, median, na.rm=TRUE)
 	t <- tapply(t, probenamesGene, median, na.rm=TRUE)

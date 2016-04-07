@@ -17,7 +17,7 @@ ROTS.filtered <- function(data, groups, B, K, paired=FALSE, progress=FALSE) {
     for(i in 1:length(filter)) {
       rots.out$d <- append(rots.out$d, NA, after=filter[i]-1)
       names(rots.out$d)[filter[i]] <- names[i]
-      rots.out$p <- append(rots.out$p, NA, after=filter[i]-1)
+      rots.out$pvalue <- append(rots.out$pvalue, NA, after=filter[i]-1)
       rots.out$FDR <- append(rots.out$FDR, NA, after=filter[i]-1)
     }
     # Return results
