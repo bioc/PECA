@@ -31,7 +31,7 @@ PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
 \arguments{
   \item{affy}{AffyBatch object.}
   \item{normalize}{A character string indicating if ("\code{quantile}") or ("\code{median}") normalization is performed.}
-  \item{test}{A character string indicating whether the ordinary ("\code{t}") or modified ("\code{modt}") t-test is performed.}
+  \item{test}{A character string indicating whether the ordinary t-test ("\code{t}"), modified t-test ("\code{modt}"), or reproducibility-optimized test statistic ("\code{rots}") is performed.}
   \item{type}{A character string indicating whether ("\code{median}") or ("\code{tukey}") is used when calculating gene/protein values.}
   \item{paired}{A logical indicating whether a paired test is performed.}
   \item{file}{Filename of tab separated data.}
