@@ -14,23 +14,25 @@
 
 \usage{
 ## Read AffyBatch object
-PECA_AffyBatch(affy=NULL, normalize=FALSE, test="t", type="median", paired=FALSE, progress=FALSE)
+PECA_AffyBatch(affy=NULL, normalize=FALSE, log=TRUE, test="t", type="median",
+   paired=FALSE, progress=FALSE)
 
 ## Read CEL-files
-PECA_CEL(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, test="t",
+PECA_CEL(samplenames1=NULL, samplenames2=NULL, normalize=FALSE, log=TRUE, test="t",
    type="median", paired=FALSE, progress=FALSE)
 
 ## Read tab separated text file	
-PECA_tsv(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
+PECA_tsv(file=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE, log=TRUE,
    test="t", type="median", paired=FALSE, progress=FALSE)
 
 ## Read dataframe	
 PECA_df(df=NULL, id=NULL, samplenames1=NULL, samplenames2=NULL, normalize=FALSE,
-   test="t", type="median", paired=FALSE, progress=FALSE)
+   log=TRUE, test="t", type="median", paired=FALSE, progress=FALSE)
 }
 \arguments{
   \item{affy}{AffyBatch object.}
   \item{normalize}{A character string indicating if ("\code{quantile}") or ("\code{median}") normalization is performed.}
+  \item{log}{A logical indicating whether log2 scaling is performed.}
   \item{test}{A character string indicating whether the ordinary t-test ("\code{t}"), modified t-test ("\code{modt}"), or reproducibility-optimized test statistic ("\code{rots}") is performed.}
   \item{type}{A character string indicating whether ("\code{median}") or ("\code{tukey}") is used when calculating gene/protein values.}
   \item{paired}{A logical indicating whether a paired test is performed.}
