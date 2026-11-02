@@ -54,7 +54,7 @@ Genome Biology 10(7), R77, 2009.
 
 H. Bengtsson, K. Simpson, J. Bullard and K. Hansen:
 aroma.affymetrix: A generic framework in R for analyzing small to very large Affymetrix data sets in bounded memory.
-Tech Report \#745, Department of Statistics, University of California, Berkeley, 2008.
+Tech Report 745, Department of Statistics, University of California, Berkeley, 2008.
 }
 
 \seealso{\code{\link{PECA}}}
